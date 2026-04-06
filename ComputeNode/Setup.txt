@@ -1,0 +1,13 @@
+How to use this:
+    On your fresh worker node, create the file: nano setup_worker.sh
+
+    Paste setup.sh into setup_worker.sh and save it.
+    
+    Make it executable: chmod +x setup_worker.sh
+
+    Run it: ./setup_worker.sh
+
+    Finally, copy the contents of ~/.ssh/orchestrator_key.pub from your Head Node and paste it into the worker's ~/.ssh/authorized_keys file.
+
+
+If the worker node has an Nvidia GPU, you will also need to install the Nvidia Drivers and the nvidia-container-toolkit so Docker can pass the GPU into the container.
