@@ -15,7 +15,7 @@ Directory Structure
 Your Head Node should be organized exactly like this:
 Plaintext
 
-    cluster_root/
+    HeadNode/
     ├── main.py
     ├── database/
     │   ├── schema.sql
@@ -79,7 +79,10 @@ Bash
 
         Edit the service: sudo systemctl edit ollama.service
 
-        Add this under [Service]: Environment="OLLAMA_HOST=0.0.0.0"
+        Add this under [Service]: 
+            Environment="OLLAMA_HOST=0.0.0.0"
+            Environment="OLLAMA_MULTIMODAL_GPU=1"
+            Environment="CUDA_VISIBLE_DEVICES=0,1"
 
         Restart: sudo systemctl daemon-reload && sudo systemctl restart ollama
 
