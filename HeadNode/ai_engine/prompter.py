@@ -2,7 +2,7 @@ from openai import OpenAI
 
 # --- CONFIGURATION ---
 # Assuming you are running Ollama or vLLM on your GPU node (PC#2)
-LLM_BASE_URL = "http://192.168.1.100:11434/v1" 
+LLM_BASE_URL = "http://192.168.1.140:11434/v1" 
 LLM_MODEL = "deepseek-coder-v2:16b-lite-instruct-q4_K_M" # Or whatever model you have loaded
 LLM_API_KEY = "not-needed-for-local"
 # ---------------------
@@ -17,6 +17,7 @@ CRITICAL INSTRUCTIONS:
 1. You must output EXACTLY AND ONLY a valid JSON object. 
 2. Do not include any conversational text, explanations, or markdown blocks outside the JSON.
 3. Your Python code must be completely self-contained.
+4. Do not use markdown backticks or wrap the output in code blocks.
 
 EXPECTED JSON SCHEMA:
 {
@@ -50,7 +51,12 @@ def generate_task_payload(user_prompt):
             }
         )
         
-        raw_output = response.choices[0].message.content
+        raw_output = response.choices[0].message.content.strip()
+        
+        if raw_output.startswith("```"):
+            raw_output = raw_output.split("```")[1]
+            if raw_output.startswith("json"):
+                raw_output = raw_output[4:].strip()
         return raw_output
         
     except Exception as e:
